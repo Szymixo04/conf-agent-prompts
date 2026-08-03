@@ -1,5 +1,11 @@
 # Znane błędy i rozwiązania
 
+> **Status:** OSTATECZNY / AKTUALNY  
+> **Wersja:** 2.0  
+> **Przeznaczenie:** Publiczny standard pracy agenta modernizującego instrukcje Confluence  
+> **Bezpieczeństwo:** Dokument nie zawiera danych organizacyjnych ani danych dostępowych  
+> **Zasada nadrzędna:** Materiały bieżącego zadania mają pierwszeństwo przed neutralnymi przykładami.
+
 ## Cel
 
 Moduł opisuje powtarzalne problemy podczas generowania, zapisywania i walidowania treści Confluence. Najpierw ustal faktyczny etap błędu. Nie wykonuj automatycznie kolejnego PUT.
@@ -229,3 +235,140 @@ Przyczyna:
 Poprawka:
 Test regresyjny:
 ```
+
+---
+
+## Powiązane moduły
+
+- [Strona główna standardu](index.html)
+- [Analiza merytoryczna](analiza-merytoryczna.html)
+- [Standard wizualny](standard-wizualny.html)
+- [Format Confluence](format-confluence.html)
+- [Code review](code-review.html)
+- [Znane błędy](znane-bledy.html)
+
+## 16. Podwójne kodowanie encji
+
+### Objaw
+
+Po zapisie użytkownik widzi tekst `&amp;lt;` zamiast `<`.
+
+### Przyczyna
+
+Już zakodowana encja została zakodowana ponownie.
+
+### Rozwiązanie
+
+Koduj tekst na granicy kontekstu dokładnie raz. Test regresyjny ma obejmować tekst surowy, poprawną encję i ampersand.
+
+## 17. Nieprawidłowy rodzaj body makra
+
+### Objaw
+
+Confluence odrzuca makro albo usuwa jego treść.
+
+### Przyczyna
+
+Makro otrzymało `rich-text-body` zamiast `plain-text-body` lub odwrotnie.
+
+### Rozwiązanie
+
+Sprawdź wzorzec makra i typ body przed PUT. Ponownie odczytaj zapisany Storage Format.
+
+## 18. Brak bezpośredniego rodzica
+
+### Objaw
+
+Strona zostaje przeniesiona albo payload jest odrzucony.
+
+### Przyczyna
+
+Skrypt wysłał pełną, błędną listę ancestors albo nie ustalił ostatniego elementu jako rodzica.
+
+### Rozwiązanie
+
+Pobierz świeże ancestors, zachowaj bezpośredniego rodzica zgodnie z interfejsem instalacji i porównaj po GET.
+
+## 19. Udany parser, błędne makro
+
+### Objaw
+
+XML jest poprawny, ale Confluence nie renderuje oczekiwanego elementu.
+
+### Przyczyna
+
+Parser potwierdził składnię XML, nie semantykę makra.
+
+### Rozwiązanie
+
+Rozdziel walidację XML od kontroli `ac:name`, parametrów i rodzaju body. Dodaj test modułu Format Confluence.
+
+## 20. Użycie starego JSON-u
+
+### Objaw
+
+Skrypt próbuje nadpisać nowszą wersję albo przywraca usuniętą treść.
+
+### Przyczyna
+
+Payload przygotowano na podstawie wcześniejszego eksportu bez świeżego GET.
+
+### Rozwiązanie
+
+Przed PUT pobierz aktualną stronę, porównaj wersję i chronione dane. Przy różnicy zatrzymaj operację.
+
+## 21. Za szeroka decyzja użytkownika
+
+### Objaw
+
+Jedna zaakceptowana poprawka została zastosowana do innych podobnych miejsc.
+
+### Przyczyna
+
+Agent potraktował decyzję lokalną jako regułę globalną.
+
+### Rozwiązanie
+
+Powiąż decyzję z identyfikatorem problemu i lokalizacją. Rozszerzenie wymaga osobnej zgody.
+
+## 22. Utrata znaczenia przy normalizacji spacji
+
+### Objaw
+
+Walidator uważa różne komendy za identyczne.
+
+### Przyczyna
+
+Usunięto wszystkie spacje lub znaki nowej linii bez uwzględnienia składni powłoki.
+
+### Rozwiązanie
+
+Normalizuj białe znaki ostrożnie. Dla komend zachowuj granice tokenów, cudzysłowy, backslashe i operatory.
+
+## 23. Publiczny przykład użyty jako dane rzeczywiste
+
+### Objaw
+
+W instrukcji pojawia się `example-service.service` albo `host-prod-01.example.local`.
+
+### Przyczyna
+
+Neutralny przykład został potraktowany jako uzupełnienie braku.
+
+### Rozwiązanie
+
+Usuń wartość z wersji roboczej, oznacz brak danych środowiskowych i poproś użytkownika o właściwą wartość. Dodaj test wyszukujący domenę `example.local` oraz nazwy `example-*`.
+
+## 24. Indeks wiedzy dostępny, moduł niedostępny
+
+### Objaw
+
+Agent zna nazwy modułów, ale nie potrafi podać ich faktycznej treści.
+
+### Przyczyna
+
+Źródło główne zostało odczytane, lecz podstrona nie została pobrana lub zindeksowana.
+
+### Rozwiązanie
+
+Nie uznawaj modułu za zastosowany. Wskaż brak odczytu, użyj reguł wbudowanych i nie deklaruj pełnej zgodności ze standardem modułu.

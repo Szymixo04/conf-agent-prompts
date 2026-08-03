@@ -1,5 +1,11 @@
 # Standard wizualny instrukcji Confluence
 
+> **Status:** OSTATECZNY / AKTUALNY  
+> **Wersja:** 2.0  
+> **Przeznaczenie:** Publiczny standard pracy agenta modernizującego instrukcje Confluence  
+> **Bezpieczeństwo:** Dokument nie zawiera danych organizacyjnych ani danych dostępowych  
+> **Zasada nadrzędna:** Materiały bieżącego zadania mają pierwszeństwo przed neutralnymi przykładami.
+
 ## Cel
 
 Standard poprawia czytelność bez zmiany znaczenia technicznego. Ochrona treści ma pierwszeństwo przed wyglądem.
@@ -140,3 +146,78 @@ Po zmianie porównaj te elementy semantycznie.
 ## Kontrola widoku
 
 Po zapisaniu strony testowej sprawdź widoczność wszystkich kolumn, pełnych hostów, komend i logów oraz brak poziomego rozszerzenia przez kod. Jeżeli nie wykonano podglądu, zaznacz to w raporcie.
+
+---
+
+## Powiązane moduły
+
+- [Strona główna standardu](index.html)
+- [Analiza merytoryczna](analiza-merytoryczna.html)
+- [Standard wizualny](standard-wizualny.html)
+- [Format Confluence](format-confluence.html)
+- [Code review](code-review.html)
+- [Znane błędy](znane-bledy.html)
+
+## Wzorzec decyzji wizualnej
+
+Przed zmianą elementu ustal jego funkcję:
+
+- treść proceduralna;
+- wartość techniczna;
+- ostrzeżenie;
+- przykład;
+- wynik polecenia;
+- lista obiektów;
+- odwołanie do dokumentu.
+
+Dobierz format do funkcji. Nie formatuj wszystkich elementów technicznych w identyczny sposób.
+
+## Nagłówki i numeracja
+
+Nagłówki mają odzwierciedlać strukturę, a nie dekorację. Nie pomijaj poziomu bez potrzeby. Nie zamieniaj etykiety tabeli ani nazwy środowiska na nagłówek strony. Zachowaj numerację źródłową, chyba że użytkownik wyraźnie zatwierdzi reorganizację.
+
+## Czytelność procedury
+
+Oddziel opis od czynności wykonywalnej. Komendę umieść bezpośrednio po zdaniu wyjaśniającym cel, jeżeli źródło łączy te elementy. Ostrzeżenie umieść przed czynnością, której dotyczy. Wynik kontrolny umieść po komendzie.
+
+## Tabele — test wymiarowy
+
+Przed TEST sprawdź logicznie:
+
+- czy żadna komórka nie zawiera niepodzielnego ciągu bez uzasadnienia;
+- czy pełne hosty pozostają czytelne;
+- czy kod nie wymusza minimalnej szerokości;
+- czy nagłówki nie są znacznie dłuższe niż zawartość;
+- czy kolumna logów pozostała dostępna.
+
+Po TEST wykonaj rzeczywisty podgląd przy standardowym powiększeniu. Kontrola kodu nie zastępuje kontroli renderowania.
+
+## Bloki Code — decyzja
+
+Użyj bloku Code poza tabelą, gdy użytkownik ma skopiować polecenie lub wynik wymaga zachowania wierszy. Użyj kodu liniowego dla krótkiej nazwy. W tabeli użyj rozwiązania zawijanego tylko wtedy, gdy makro Code pogarsza szerokość.
+
+Nie zmieniaj kilku oddzielnych komend w jedną komendę połączoną średnikiem, `&&` lub potokiem.
+
+## Makra — test adekwatności
+
+Przed dodaniem makra odpowiedz:
+
+1. Czy informacja już istnieje w źródle?
+2. Czy makro zmienia tylko widoczność, a nie znaczenie?
+3. Czy typ makra odpowiada wadze informacji?
+4. Czy treść nadal jest czytelna bez interpretacji agenta?
+
+Jeżeli odpowiedź na którekolwiek pytanie jest negatywna, nie dodawaj makra bez decyzji użytkownika.
+
+## Elementy niedozwolone
+
+Nie dodawaj ozdobnych ikon, emoji, kolorów, ramek, nowych bannerów, podsumowań ani sekcji „Najważniejsze”, jeżeli nie wynikają ze standardu lub polecenia. Nie ukrywaj treści w rozwijanych sekcjach bez zatwierdzenia.
+
+## Raport kontroli wizualnej
+
+Podaj osobno:
+
+- kontrole możliwe na podstawie Storage Format;
+- kontrole wykonane na wyrenderowanej stronie;
+- elementy wymagające oceny użytkownika;
+- znane różnice pomiędzy widokiem testowym a źródłem.

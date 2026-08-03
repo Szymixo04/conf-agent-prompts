@@ -1,5 +1,11 @@
 # Code review skryptów modernizujących Confluence
 
+> **Status:** OSTATECZNY / AKTUALNY  
+> **Wersja:** 2.0  
+> **Przeznaczenie:** Publiczny standard pracy agenta modernizującego instrukcje Confluence  
+> **Bezpieczeństwo:** Dokument nie zawiera danych organizacyjnych ani danych dostępowych  
+> **Zasada nadrzędna:** Materiały bieżącego zadania mają pierwszeństwo przed neutralnymi przykładami.
+
 ## Cel
 
 Skrypt nie może zostać przekazany jako sprawdzony bez rzeczywistego wykonania dostępnych kontroli. Po każdej poprawce powtórz kontrole zależne od zmienionego fragmentu oraz końcowy zestaw regresyjny.
@@ -194,3 +200,97 @@ Podaj:
 - sumę kontrolną pliku.
 
 Nie deklaruj wyniku kontroli, której nie wykonano.
+
+---
+
+## Powiązane moduły
+
+- [Strona główna standardu](index.html)
+- [Analiza merytoryczna](analiza-merytoryczna.html)
+- [Standard wizualny](standard-wizualny.html)
+- [Format Confluence](format-confluence.html)
+- [Code review](code-review.html)
+- [Znane błędy](znane-bledy.html)
+
+## Kolejność bramek jakości
+
+Skrypt przechodzi kolejno:
+
+1. **Brama wejścia** — kompletność i integralność JSON/PDF.
+2. **Brama transformacji** — zachowanie danych chronionych.
+3. **Brama składni** — parser JavaScript.
+4. **Brama Storage Format** — XML, makra, CDATA i tabele.
+5. **Brama trybu** — identyfikatory oraz blokada PUBLISH.
+6. **Brama przed PUT** — kopia, świeża wersja i payload.
+7. **Brama po PUT** — ponowny GET i walidacja semantyczna.
+8. **Brama wizualna** — rzeczywisty podgląd strony testowej.
+
+Nie przechodź do kolejnej bramy po błędzie blokującym.
+
+## Statyczne testy obowiązkowe
+
+Jeżeli środowisko umożliwia wykonanie kodu, zapisz skrypt do pliku i uruchom rzeczywisty parser. Dodatkowo wyszukaj:
+
+- twardo zapisane numery wersji;
+- więcej niż jedno żądanie PUT;
+- PUT przed kopią lub walidacją;
+- nieużywane TARGET_PAGE_ID w TEST;
+- tokeny, nagłówki Authorization i ciasteczka;
+- `eval`, `Function` i niepotrzebne wykonywanie tekstu;
+- automatyczny retry aktualizacji;
+- `message` inne niż pusty ciąg.
+
+## Testy funkcji pomocniczych
+
+Oddzielnie testuj:
+
+- kodowanie XML;
+- przygotowanie CDATA;
+- grupowanie hostów;
+- podział długiej komendy;
+- normalizację tekstu;
+- porównanie list chronionych elementów;
+- budowę nazwy kopii;
+- wyznaczenie bezpośredniego rodzica.
+
+Do testów używaj neutralnych danych zawierających cudzysłowy, apostrofy, ampersand, polskie znaki, URL, placeholder oraz backslash.
+
+## Brama przed PUT
+
+Bezpośrednio przed PUT sprawdź i wyświetl:
+
+- aktywny tryb;
+- id pobranej strony;
+- id w endpointcie;
+- tytuł;
+- wersję bieżącą i planowaną;
+- rodzica;
+- wynik kopii;
+- wynik XML;
+- liczbę brakujących elementów chronionych.
+
+PUT jest dozwolony wyłącznie, gdy liczba brakujących elementów wynosi zero i nie ma błędu blokującego.
+
+## Kontrola odpowiedzi HTTP
+
+Zapisz kod HTTP i czytelną treść błędu. Obsłuż odpowiedź, która nie jest poprawnym JSON-em. Nie ujawniaj w raporcie ciasteczek ani wrażliwych nagłówków.
+
+## Kontrola skutków
+
+Po PUT nie opieraj sukcesu na odpowiedzi aktualizacyjnej. Wykonaj GET ze świeżym parametrem czasu lub właściwymi nagłówkami, jeżeli cache może zakłócić wynik. Potwierdź numer wersji, tytuł, rodzica i treść.
+
+## Klasyfikacja wyników testów
+
+Każdy test oznacz jako:
+
+- `PASS` — wykonany i pozytywny;
+- `FAIL` — wykonany i negatywny;
+- `NOT RUN` — niewykonany;
+- `BLOCKED` — niemożliwy z powodu brakujących danych lub narzędzia;
+- `MANUAL` — wymaga podglądu lub decyzji użytkownika.
+
+Nie zamieniaj `NOT RUN` na `PASS` na podstawie inspekcji wzrokowej.
+
+## Minimalny raport końcowy
+
+Raport musi identyfikować plik przez nazwę i SHA-256, wskazywać tryb, identyfikatory, wynik każdej bramy, dokładny pageId możliwy do zmiany oraz informację, czy PUT jest aktywny. Przy TEST wyraźnie potwierdź, że TARGET_PAGE_ID nie jest używany do aktualizacji.

@@ -1,0 +1,41 @@
+{
+  "release": "2.0-final",
+  "files": {
+    "README.md": {
+      "sha256": "07089f51fd1e42b2477f2a13b55d03acc8e29b650acc90ab5c0a3269e8fcf60c",
+      "bytes": 455
+    },
+    "analiza-merytoryczna.md": {
+      "sha256": "f8eaca31a325c9caef95007b7685312526675a7492235a321e7efa8ae1bacd14",
+      "bytes": 8453
+    },
+    "code-review.md": {
+      "sha256": "6f78c853c7e864e483094131f571753ff711c6dfde60df4d3d6c90492fac9a40",
+      "bytes": 7979
+    },
+    "format-confluence.md": {
+      "sha256": "cd725729c193e61a4b9c0ebdb390935fc13b5d0ef3daa8b07b5749ccc44fb21b",
+      "bytes": 7158
+    },
+    "index.md": {
+      "sha256": "6ed5eb9df29e239e1e348daf7d448a4aafac7df03209956178629cfca40d6088",
+      "bytes": 5379
+    },
+    "robots.txt": {
+      "sha256": "86119e1744102d0df24f5419c92cab77717ebbc64d548c6ac1a65847721ea14c",
+      "bytes": 91
+    },
+    "sitemap.xml": {
+      "sha256": "b3c171bab02abaa66efa0724d4a852e6471a77653932b8a1b4db267558005917",
+      "bytes": 973
+    },
+    "standard-wizualny.md": {
+      "sha256": "aaa581680a2e0c9d0849ea8b111e47a726ce694ccc963b7182ef5a173fbea9a5",
+      "bytes": 7191
+    },
+    "znane-bledy.md": {
+      "sha256": "e93034f7f634fc46b21a9e9edaeb59374b4e8c05f76a6f66d18a1b10d597cd75",
+      "bytes": 9329
+    }
+  }
+}

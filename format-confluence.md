@@ -1,5 +1,11 @@
 # Confluence Storage Format
 
+> **Status:** OSTATECZNY / AKTUALNY  
+> **Wersja:** 2.0  
+> **Przeznaczenie:** Publiczny standard pracy agenta modernizującego instrukcje Confluence  
+> **Bezpieczeństwo:** Dokument nie zawiera danych organizacyjnych ani danych dostępowych  
+> **Zasada nadrzędna:** Materiały bieżącego zadania mają pierwszeństwo przed neutralnymi przykładami.
+
 ## Cel
 
 Moduł określa bezpieczne generowanie i kontrolę `body.storage.value` w formacie XHTML/XML używanym przez Confluence.
@@ -157,3 +163,97 @@ Sprawdź:
 - treść bloków kodu;
 - brak automatycznych linków;
 - hosty, usługi, komendy, ścieżki i wartości.
+
+---
+
+## Powiązane moduły
+
+- [Strona główna standardu](index.html)
+- [Analiza merytoryczna](analiza-merytoryczna.html)
+- [Standard wizualny](standard-wizualny.html)
+- [Format Confluence](format-confluence.html)
+- [Code review](code-review.html)
+- [Znane błędy](znane-bledy.html)
+
+## Przestrzenie nazw do walidacji lokalnej
+
+Do parsowania fragmentu użyj neutralnego elementu nadrzędnego:
+
+```xml
+<root xmlns:ac="http://atlassian.com/content" xmlns:ri="http://atlassian.com/resource/identifier">
+  <!-- body.storage.value -->
+</root>
+```
+
+Element nadrzędny służy walidacji i nie jest wysyłany jako treść strony.
+
+## Funkcje kodujące
+
+Rozdziel funkcje:
+
+- kodowanie tekstu XML;
+- kodowanie wartości atrybutu;
+- przygotowanie CDATA;
+- normalizacja tekstu do porównania;
+- dekodowanie encji po GET.
+
+Nie używaj jednej funkcji do wszystkich kontekstów. Szczególnie nie koduj zawartości CDATA jak zwykłego XHTML i nie wkładaj niesprawdzonego tekstu do atrybutu.
+
+## Named entities
+
+Parser XML nie rozpoznaje wszystkich nazwanych encji HTML bez definicji DTD. Przed lokalnym parsowaniem można zamienić wyłącznie znane, poprawne encje HTML na znaki Unicode lub encje numeryczne. Nie wykonuj globalnej zamiany każdego `&`, ponieważ może to spowodować podwójne kodowanie.
+
+## Kontrola tabel
+
+Dla każdej tabeli policz logicznie liczbę komórek w wierszach. Uwzględnij świadome `colspan` i `rowspan`. Sprawdź obecność `tbody`, jeżeli jest wymagany przez przyjęty wzorzec, oraz brak komórek umieszczonych poza wierszem.
+
+## Kontrola makr
+
+Dla każdego makra sprawdź:
+
+- `ac:name`;
+- unikalność parametrów, jeżeli parametr nie może się powtarzać;
+- zgodność rodzaju body z makrem;
+- brak `ac:rich-text-body` wewnątrz `ac:plain-text-body`;
+- poprawne granice CDATA;
+- zachowanie treści po ponownym GET.
+
+## Bezpieczne porównanie komend
+
+Do walidacji semantycznej komendy:
+
+1. dekoduj encje;
+2. zamień kontrolowane `<br>` na znak nowej linii;
+3. usuń wyłącznie prezentacyjne znaczniki;
+4. normalizuj końce linii;
+5. porównaj tokeny i znaki znaczące;
+6. nie usuwaj cudzysłowów, backslashy ani operatorów.
+
+## Payload
+
+Wartość `body.storage.representation` ma być zgodna z interfejsem używanym przez instalację Confluence. Nie dodawaj pól niewymaganych przez źródłowy obiekt. Tytuł i ancestors pobierz ze świeżej strony, nie z historycznego przykładu.
+
+## Testy negatywne
+
+Walidator powinien odrzucić co najmniej:
+
+- niedomkniętą tabelę;
+- niezamknięte CDATA;
+- nagi znak `&`;
+- komórkę poza `tr`;
+- automatyczny link wewnątrz komendy;
+- brak wymaganego parametru makra;
+- utratę chronionego hosta lub polecenia.
+
+## Raport walidacji
+
+Wynik rozdziel na:
+
+- poprawność XML;
+- poprawność struktur Confluence;
+- kompletność danych;
+- udany zapis;
+- poprawność odczytu po zapisie;
+- kontrolę renderowania.
+
+Pozytywny wynik jednej warstwy nie oznacza automatycznie pozytywnego wyniku pozostałych.

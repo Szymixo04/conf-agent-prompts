@@ -9,3 +9,8 @@ https://szymixo04.github.io/conf-agent-prompts/
 ```
 
 Repozytorium nie może zawierać danych organizacyjnych, rzeczywistych hostów, wewnętrznych adresów, JSON-ów stron, instrukcji operacyjnych, tokenów, haseł ani danych uwierzytelniających.
+
+
+Wersja standardu: 1.0
+
+Wersja ostateczna standardu: 2.0

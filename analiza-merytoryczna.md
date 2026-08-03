@@ -1,5 +1,11 @@
 # Analiza merytoryczna instrukcji technicznych
 
+> **Status:** OSTATECZNY / AKTUALNY  
+> **Wersja:** 2.0  
+> **Przeznaczenie:** Publiczny standard pracy agenta modernizującego instrukcje Confluence  
+> **Bezpieczeństwo:** Dokument nie zawiera danych organizacyjnych ani danych dostępowych  
+> **Zasada nadrzędna:** Materiały bieżącego zadania mają pierwszeństwo przed neutralnymi przykładami.
+
 ## Cel
 
 Analiza służy wykrywaniu niespójności logicznych, proceduralnych i technicznych. Nie daje zgody na automatyczne poprawianie danych technicznych. Raport pozostaje poza treścią Confluence do czasu decyzji użytkownika.
@@ -157,3 +163,88 @@ Następnie wymień wykorzystane źródła i ograniczenia.
 ## Zakaz automatycznej publikacji raportu
 
 Raportu nie wolno automatycznie dodawać do `body.storage.value`, makra, komentarza wersji ani strony testowej lub docelowej. Zastosowanie poprawki wymaga decyzji użytkownika.
+
+---
+
+## Powiązane moduły
+
+- [Strona główna standardu](index.html)
+- [Analiza merytoryczna](analiza-merytoryczna.html)
+- [Standard wizualny](standard-wizualny.html)
+- [Format Confluence](format-confluence.html)
+- [Code review](code-review.html)
+- [Znane błędy](znane-bledy.html)
+
+## Macierz spójności usług
+
+Dla każdego modułu przygotuj roboczą macierz obejmującą:
+
+- nazwę modułu;
+- środowisko;
+- hosty;
+- konto;
+- start;
+- stop;
+- status;
+- restart;
+- logi;
+- kontrolę po operacji.
+
+Macierz służy wyłącznie analizie. Nie publikuj jej automatycznie w Confluence. Różne wartości w jednym wierszu są kandydatem do raportu, a nie zgodą na zmianę.
+
+## Analiza procedury awaryjnej i odwracalności
+
+Dla operacji wpływających na dostępność sprawdź, czy materiał określa:
+
+- warunek rozpoczęcia;
+- warunek przerwania;
+- sposób oceny powodzenia;
+- działanie po niepowodzeniu;
+- możliwość cofnięcia;
+- źródło danych potrzebnych do cofnięcia;
+- osobę lub rolę podejmującą decyzję, jeśli informacja występuje w źródle.
+
+Brak procedury cofnięcia nie zawsze jest błędem. Klasyfikuj według wpływu i zakresu instrukcji.
+
+## Aktualność wiedzy produktowej
+
+Przy użyciu dokumentacji publicznej zapisz:
+
+- nazwę produktu;
+- wersję dokumentacji;
+- datę dostępu;
+- adres oficjalnego źródła;
+- zakres informacji wykorzystany w analizie.
+
+Nie stosuj instrukcji dla innej wersji produktu bez oznaczenia różnicy. Jeżeli wersja wdrożenia jest nieznana, oznacz wniosek jako wymagający potwierdzenia.
+
+## Pytania decyzyjne
+
+Pytanie do użytkownika ma:
+
+- dotyczyć jednego konfliktu;
+- wskazywać dokładne warianty;
+- opisywać wpływ wyboru;
+- nie sugerować, że jeden wariant został już zatwierdzony;
+- umożliwiać odpowiedź krótką i jednoznaczną.
+
+Przykład neutralny:
+
+```text
+W rozdziale 4 występuje example-a.service, a w tabeli example-b.service.
+Która nazwa ma zostać użyta w wersji testowej: A, B czy pozostawienie źródła bez zmiany?
+```
+
+## Blokada i zakres kontynuacji
+
+Nierozwiązany problem może blokować tylko część procesu. Agent może nadal przygotować analizę, podgląd struktury i listę braków, lecz nie może przedstawiać niezweryfikowanej treści jako gotowej do publikacji. PUBLISH blokują w szczególności konflikty wysokiego wpływu dotyczące hosta, środowiska, usługi, konta, komendy, danych dostępowych lub strony docelowej.
+
+## Kontrola regresyjna analizy
+
+Po decyzjach użytkownika ponownie sprawdź:
+
+1. czy rozwiązano wskazany konflikt;
+2. czy zmiana nie stworzyła nowej sprzeczności;
+3. czy decyzja nie została zastosowana szerzej niż polecono;
+4. czy raport i treść strony nadal są rozdzielone;
+5. czy problemy nierozwiązane zachowały właściwy status.

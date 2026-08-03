@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://szymixo04.github.io/conf-agent-prompts/sitemap.xml
